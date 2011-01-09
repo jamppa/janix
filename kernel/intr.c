@@ -6,6 +6,7 @@
 
 #include "kernel.h"
 
+int_handler_t interrupt_handlers[NUM_OF_INTERRUPTS];
 IdtGate idt_gates[NUM_OF_INTERRUPTS];
 IdtLocation idt_location;
 
@@ -18,11 +19,21 @@ static void set_idt_gate(u8_t idx, u32_t isr_addr, u16_t sel, u8_t flags);
 static void send_reset_signal_to_slave();
 static void send_reset_signal_to_master();
 
+static int is_valid_int_number(u8_t int_number);
+
 void init_intr(){
 	init_idt();
 	init_pics();
 
 	load_idt((u32_t)&idt_location);
+}
+
+void register_interrupt_handler(u8_t int_number, int_handler_t handler){
+	if(is_valid_int_number(int_number)){
+		if(interrupt_handlers[int_number] == handler)
+			return;
+		interrupt_handlers[int_number] = handler;
+	}
 }
 
 void isr_handler(registers_t regs){
@@ -140,5 +151,13 @@ static void send_reset_signal_to_slave(){
 
 static void send_reset_signal_to_master(){
 	out_byte(PIC_MASTER_CMD, 0x20);
+}
+
+static int is_valid_int_number(u8_t int_number){
+	int is_valid = 1;
+	if(int_number < 0 || int_number >=  NUM_OF_INTERRUPTS)
+		is_valid = 0;
+
+	return is_valid;
 }
 
