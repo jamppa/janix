@@ -1,0 +1,16 @@
+#	Makefile for lib of janix
+
+CC		= gcc
+CFLAGS	= -c -Wall -nostdinc -fno-builtin -I../include
+
+OBJS	= string.o
+
+.c.o:
+	$(CC) $(CFLAGS) -o $*.o $<
+
+lib.a: $(OBJS)
+	ar rcs lib.a $(OBJS)
+
+clean:
+	rm -rf *.o *.a
+
