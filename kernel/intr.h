@@ -116,8 +116,9 @@ extern void isr_30();
 extern void isr_31();
 
 /*
-   *	IRQ service routines
+   *	irq or hw int service routines
  */
+
 extern void irq_0();
 extern void irq_1();
 extern void irq_2();

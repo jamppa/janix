@@ -24,7 +24,6 @@ static int is_valid_int_number(u8_t int_number);
 void init_intr(){
 	init_idt();
 	init_pics();
-
 	load_idt((u32_t)&idt_location);
 }
 
@@ -38,15 +37,14 @@ void register_interrupt_handler(u8_t int_number, int_handler_t handler){
 
 void isr_handler(registers_t regs){
 	putsk("Received interrupt: ");
-	h_putsk(regs.int_number);
+	puthk(regs.int_number);
 	putsk("\n");
 }
 
 void irq_handler(registers_t registers){
-	putsk("Received external interrupt ");
-	h_putsk(registers.int_number);
-	putsk("!\n");
 
+	int_handler_t handler = interrupt_handlers[registers.int_number];
+	handler(registers);
 	if(registers.int_number >= 40){
 		send_reset_signal_to_slave();
 	}
