@@ -16,5 +16,6 @@
 #include "ports.h"
 #include "console.h"
 #include "intr.h"
+#include "keyboard.h"
 
 #endif
