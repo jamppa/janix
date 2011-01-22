@@ -30,7 +30,7 @@ void putsk(char* str){
 	}
 }
 
-void h_putsk(u32_t num){
+void puthk(u32_t num){
 
 	const char* hex_array = "0123456789abcdef";
 	int i;

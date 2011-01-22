@@ -37,7 +37,7 @@ extern void console_puts(Console* console, char* str);
 
 extern void putk(char c);
 extern void putsk(char* str);
-extern void h_putsk(u32_t num);
+extern void puthk(u32_t num);
 extern void clear(void);
 
 #endif
