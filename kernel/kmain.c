@@ -6,16 +6,16 @@
 */
 
 #include "kernel.h"
+#include <janix/tty.h>
 
 static void init();
 static void initialize_screen();
 static void initialize_interrupts();
-static void initialize_keyboard();
 
 void kernel_main(){
 
 	init();
-	asm volatile ("int $0x3");
+	//asm volatile ("int $0x3");	// just test interrupts
 
 	for (;;);
 }
@@ -23,21 +23,15 @@ void kernel_main(){
 static void init(){
 	initialize_screen();
 	initialize_interrupts();
-	initialize_keyboard();
 }
 
 static void initialize_screen(){
-	init_screen();	
+	init_tty();	
 	clear();
-	putsk("Janix 0.0.1 - Jani Arvonen 2010\n");
+	putsk("Janix 0.0.1 (32-bit protected mode)\n");
 }
 
 static void initialize_interrupts(){
 	init_intr();
 	putsk("Interrupts initialised.\n");
-}
-
-static void initialize_keyboard(){
-	init_keyboard();
-	putsk("Keyboard initialised.\n");
 }

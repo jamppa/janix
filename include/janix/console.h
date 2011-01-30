@@ -16,7 +16,7 @@
 #define TAB_MASK			7
 #define TAB_SIZE			8
 
-typedef struct console_t {
+typedef struct console {
 	
 	u16_t* video_memory_addr;
 	int crtc_addr;
@@ -28,12 +28,11 @@ typedef struct console_t {
 	int console_width;
 	int console_height;
 
-} Console;
+} console_t;
 
-extern void init_screen(void);
-extern void console_putc(Console* console, char c);
-extern void console_clear(Console* console);
-extern void console_puts(Console* console, char* str);
+extern void console_putc(console_t* console, char c);
+extern void console_clear(console_t* console);
+extern void console_puts(console_t* console, char* str);
 
 extern void putk(char c);
 extern void putsk(char* str);

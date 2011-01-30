@@ -15,7 +15,7 @@ LIBS		= ../lib/lib.a
 		$(AS) $(AFLAGS) -o $*.o $<
 
 OBJS		= kstart.o kmain.o ports.o intr.o isr.o console.o \
-			  keyboard.o
+			  keyboard.o tty.o
 
 kernel.o: $(OBJS)
 		ld -T $(LS) -o kernel.bin $(OBJS) $(LIBS)

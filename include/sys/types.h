@@ -26,6 +26,11 @@ typedef long clock_t;		   /* unit for system accounting */
 typedef unsigned long sigset_t;
 #endif
 
+#ifndef NULL
+#define NULL	((void *) 0)
+#endif
+
+
 /* Types used in disk, inode, etc. data structures. */
 typedef short          dev_t;	   /* holds (major|minor) device pair */
 typedef char           gid_t;	   /* group id */

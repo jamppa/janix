@@ -6,17 +6,22 @@
  */
 
 #include "kernel.h"
+#include <janix/tty.h>
 
-static Console console; 
-static Console* current_console = (void *)0;
+static console_t console; 
+static console_t* current_console = (void *)0;
 
-static u16_t get_current_cursor_location(Console* console);
-static void move_cursor(Console* console);
-static void scroll_console(Console* console);
-static u8_t need_for_scroll(Console* console);
-static void move_lines_by_one(Console* console);
-static void blank_bottom_line(Console* console);
-static void handle_special_char(Console* console, char c);
+static const char* hex_array = "0123456789abcdef";
+
+static void write_console(tty_t* tty);
+static u16_t get_current_cursor_location(console_t* console);
+static void move_cursor(console_t* console);
+static void scroll_console(console_t* console);
+static u8_t need_for_scroll(console_t* console);
+static void move_lines_by_one(console_t* console);
+static void blank_bottom_line(console_t* console);
+static void handle_special_char(console_t* console, char c);
+
 
 void putk(char c){
 	if(c != 0){
@@ -32,7 +37,6 @@ void putsk(char* str){
 
 void puthk(u32_t num){
 
-	const char* hex_array = "0123456789abcdef";
 	int i;
 	for(i = 28; i >= 0; i -= 4){
 		if(i == 28)
@@ -45,7 +49,7 @@ void clear(void){
 	console_clear(current_console);
 }
 
-void init_screen(void){
+void init_screen(tty_t* tp){
 
 	console.video_memory_addr = (u16_t *)VIDEO_MEMORY_BASE;
 	if((in_word(VGA_MISC_PORT) & 0x1) != 0){
@@ -66,9 +70,11 @@ void init_screen(void){
 	console.attribute = attribute_byte << 8;	// lower 8-bit for character
 
 	current_console = &console;
+	tp->console = current_console;
+	tp->dev_write = write_console;
 }
 
-void console_putc(Console* console, char c){
+void console_putc(console_t* console, char c){
 
 	u16_t* char_location;
 	handle_special_char(console, c);
@@ -90,7 +96,7 @@ void console_putc(Console* console, char c){
 	move_cursor(console);
 }
 
-void console_clear(Console* console){
+void console_clear(console_t* console){
 	
 	int i;
 	u16_t blank = BLANK|console->attribute;
@@ -103,13 +109,22 @@ void console_clear(Console* console){
 	move_cursor(console);
 }
 
-void console_puts(Console* console, char* str){
+void console_puts(console_t* console, char* str){
 	while(*str){
 		console_putc(console, *str++);
 	}
 }	
 
-static void handle_special_char(Console* console, char c){
+static void write_console(tty_t* tty){
+	tty_queue_t* queue = &tty->write_q;
+	char c;
+	while(queue->count){
+		get_from_queue(queue, &c);
+		console_putc(tty->console, c);	
+	}
+}
+
+static void handle_special_char(console_t* console, char c){
 
 	if(c == 0x08 && console->current_x){	/*backspace*/
 		console->current_x--;
@@ -126,7 +141,7 @@ static void handle_special_char(Console* console, char c){
 	}
 }
 
-static void move_cursor(Console* console){
+static void move_cursor(console_t* console){
 
 	u16_t cursor_location = get_current_cursor_location(console);
 	out_byte(console->crtc_addr, CRTC_CURSOR_REG);
@@ -135,7 +150,7 @@ static void move_cursor(Console* console){
 	out_byte(console->crtc_addr + 1, cursor_location);
 }
 
-static void scroll_console(Console* console){
+static void scroll_console(console_t* console){
  
 	if(need_for_scroll(console)){
 		move_lines_by_one(console);	
@@ -144,7 +159,7 @@ static void scroll_console(Console* console){
 	}
 }
 
-static void blank_bottom_line(Console* console){
+static void blank_bottom_line(console_t* console){
 	
 	u16_t blank = BLANK|(console->attribute); 
 	int i;
@@ -154,7 +169,7 @@ static void blank_bottom_line(Console* console){
 	}
 }
 
-static void move_lines_by_one(Console* console){
+static void move_lines_by_one(console_t* console){
 
 	int i;
 	for(i = 0; i < (console->console_height-1)*console->console_width; i++){
@@ -163,7 +178,7 @@ static void move_lines_by_one(Console* console){
 	}
 }
 
-static u8_t need_for_scroll(Console* console){
+static u8_t need_for_scroll(console_t* console){
 	u8_t is_need = 0;
 	if(console->current_y >= console->console_height)
 		is_need = 1;
@@ -171,6 +186,6 @@ static u8_t need_for_scroll(Console* console){
 	return is_need;
 }
 
-static u16_t get_current_cursor_location(Console* console){
+static u16_t get_current_cursor_location(console_t* console){
 	return (console->current_y * console->console_width + console->current_x);
 }	
