@@ -11,6 +11,7 @@
 static void init();
 static void initialize_screen();
 static void initialize_interrupts();
+static void initialize_clock();
 
 void kernel_main(){
 
@@ -23,6 +24,7 @@ void kernel_main(){
 static void init(){
 	initialize_screen();
 	initialize_interrupts();
+	initialize_clock();
 }
 
 static void initialize_screen(){
@@ -34,4 +36,9 @@ static void initialize_screen(){
 static void initialize_interrupts(){
 	init_intr();
 	putsk("Interrupts initialised.\n");
+}
+
+static void initialize_clock(){
+	init_clock();
+	putsk("Clock initialised.\n");
 }

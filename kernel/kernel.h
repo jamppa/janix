@@ -17,5 +17,6 @@
 #include "ports.h"
 #include "intr.h"
 #include "keyboard.h"
+#include "clock.h"
 
 #endif

@@ -38,13 +38,15 @@ void register_interrupt_handler(u8_t int_number, int_handler_t handler){
 void isr_handler(registers_t regs){
 	putsk("Received interrupt: ");
 	puthk(regs.int_number);
-	putsk("\n");
+	putsk(" !\n");
 }
 
 void irq_handler(registers_t registers){
 
 	int_handler_t handler = interrupt_handlers[registers.int_number];
-	handler(registers);
+	if(handler)
+		handler(registers);
+
 	if(registers.int_number >= 40){
 		send_reset_signal_to_slave();
 	}
@@ -111,8 +113,8 @@ static void remap_pics(){
 	out_byte(PIC_MASTER_DATA, ICW4);
 	out_byte(PIC_SLAVE_DATA, ICW4);
 
-	out_byte(PIC_MASTER_DATA, 0xfd);
-	out_byte(PIC_SLAVE_DATA, 0xff);
+	out_byte(PIC_MASTER_DATA, 0x0);
+	out_byte(PIC_SLAVE_DATA, 0x0);
 }
 
 static void init_irq_gates(){
