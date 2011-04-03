@@ -14,10 +14,19 @@
 		mov [boot_drive], dl
 		mov si, msg
 		call print
+		call get_memory
 		jmp load_kernel
 halt:
 		hlt
 		jmp halt
+
+get_memory:
+
+		xor ax, ax
+		mov ah, 0x88
+		int 0x15
+		mov [extended_memory], ax
+		ret
 
 print:
 		mov al, [si]
@@ -52,7 +61,7 @@ boot_kernel:
 		lidt [idt_desc]				; load IDT
 		mov eax, cr0
 		or eax, 1					; set lowest bit
-		mov cr0, eax				; here it goes!
+		mov cr0, eax				; here it goes! see you in procted mode
 
 		mov eax, cr4
 		or eax, 16					; set fifth bit (PAE Physical Address Extension)
@@ -164,7 +173,8 @@ gdt_desc:
 data:
 		msg db 'Booting Janix...',0		; welcome message
 		boot_drive db 0x00				; store boot drive here
+		extended_memory dw 0x0000		; store extended memory here
 
-		times 510-($-$$) db 0					; fill rest of the bytes
-		dw 0xaa55								; signature for MBR (512 bytes ready)
+		times 510-($-$$) db 0			; fill rest of the bytes
+		dw 0xaa55						; signature for MBR (512 bytes ready)
 

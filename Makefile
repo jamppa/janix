@@ -8,19 +8,21 @@ all:		kernelimage
 kernelimage: $(PARTS) image
 
 image:
-	cp boot/boot.bin . && cp kernel/kernel.bin . && cat boot.bin kernel.bin > kernel.img
+	cat boot/boot.bin kernel/kernel.bin > kernel.img
 
 boot/boot.bin:
-	cd boot && make
+	(cd boot; make)
 
 lib/lib.a:
-	cd lib && make
+	(cd lib; make)
 
-kernel/kernel.bin:
-	cd kernel && make
+kernel/kernel.bin: lib/lib.a
+	(cd kernel; make)
 
 clean:
 	rm -f boot.bin kernel.bin kernel.img;
 
 deepclean: clean
-	cd boot; make clean; cd ..; cd kernel; make clean; cd ..; cd lib; make clean; cd ..;
+	(cd boot; make clean) 
+	(cd kernel; make clean)
+	(cd lib; make clean)

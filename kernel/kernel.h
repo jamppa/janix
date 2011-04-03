@@ -14,6 +14,7 @@
 #include <sys/types.h>
 #include <string.h>
 #include <janix/console.h>
+#include <janix/mm.h>
 #include "ports.h"
 #include "intr.h"
 #include "keyboard.h"

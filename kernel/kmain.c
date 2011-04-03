@@ -12,19 +12,24 @@ static void init();
 static void initialize_screen();
 static void initialize_interrupts();
 static void initialize_clock();
+static void initialize_paging();
 
 void kernel_main(){
 
 	init();
-	//asm volatile ("int $0x3");	// just test interrupts
-
 	for (;;);
 }
 
 static void init(){
 	initialize_screen();
+	initialize_paging();
 	initialize_interrupts();
 	initialize_clock();
+}
+
+static void initialize_paging() {
+	init_paging();
+	putsk("Paging initialised.\n");
 }
 
 static void initialize_screen(){

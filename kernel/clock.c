@@ -27,7 +27,6 @@ void clock_int_handler(registers_t registers){
 	pending_ticks++;
 	if(pending_ticks == 100){
 		pending_ticks = 0;
-		putsk("clock interrupt!\n");
 	}
 }
 

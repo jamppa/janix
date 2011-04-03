@@ -19,6 +19,6 @@ bss = .; _bss = .; __bss = .;
 *(.bss)
 . = ALIGN(4096);
 }
-end = .; _end = .; __end = .;
+kernel_end = .; _kernel_end = .; __kernel_end = .;
 } 
 

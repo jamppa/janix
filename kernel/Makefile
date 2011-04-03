@@ -15,10 +15,11 @@ LIBS		= ../lib/lib.a
 		$(AS) $(AFLAGS) -o $*.o $<
 
 OBJS		= kstart.o kmain.o ports.o intr.o isr.o console.o \
-			  keyboard.o tty.o clock.o
+			  keyboard.o tty.o clock.o ../mm/kmalloc.o ../mm/page.o \
+			  ../mm/mmap.o
 
 kernel.o: $(OBJS)
 		ld -T $(LS) -o kernel.bin $(OBJS) $(LIBS)
 
 clean:
-		rm -rf *.bin *.o
+		rm -rf *.bin *.o; cd ../mm; rm -rf *.o;
