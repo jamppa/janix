@@ -20,7 +20,7 @@ kernel/kernel.bin: lib/lib.a
 	(cd kernel; make)
 
 clean:
-	rm -f boot.bin kernel.bin kernel.img;
+	(rm -f boot.bin kernel.bin kernel.img)
 
 deepclean: clean
 	(cd boot; make clean) 

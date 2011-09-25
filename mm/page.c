@@ -11,7 +11,7 @@
 #include "page.h"
 #include "mmap.h"
 
-extern int freebase;
+extern int free_mem_base;
 
 static page_table_table_t* kernel_ptt = NULL;
 static page_table_table_t* alloc_ptt(void);

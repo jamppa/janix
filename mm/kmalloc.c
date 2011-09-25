@@ -10,24 +10,24 @@
 
 // this is defined in linker script
 extern int kernel_end;
-int freebase = (int)&kernel_end;
+int free_mem_base = (int)&kernel_end;
 
 static void align_address(int* address);
 static u32_t do_alloc(int* address, size_t size);
 
 void* kmalloc(size_t size){
 
-	align_address(&freebase);
-	return (void *)do_alloc(&freebase, size);
+	align_address(&free_mem_base);
+	return (void *)do_alloc(&free_mem_base, size);
 }
 
 void* kmalloc_p(size_t size, u32_t* phys_addr){
 
-	align_address(&freebase);
+	align_address(&free_mem_base);
 	if(phys_addr){
-		*phys_addr = freebase;
+		*phys_addr = free_mem_base;
 	}
-	return (void *)do_alloc(&freebase, size);
+	return (void *)do_alloc(&free_mem_base, size);
 }
 
 static void align_address(int* address){

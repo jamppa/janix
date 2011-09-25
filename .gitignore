@@ -1,0 +1,6 @@
+tags
+*.swp
+*.o
+*.bin
+*.img
+*.a
