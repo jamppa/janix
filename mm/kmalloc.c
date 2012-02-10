@@ -16,13 +16,11 @@ static void align_address(int* address);
 static u32_t do_alloc(int* address, size_t size);
 
 void* kmalloc(size_t size){
-
 	align_address(&free_mem_base);
 	return (void *)do_alloc(&free_mem_base, size);
 }
 
 void* kmalloc_p(size_t size, u32_t* phys_addr){
-
 	align_address(&free_mem_base);
 	if(phys_addr){
 		*phys_addr = free_mem_base;
@@ -36,10 +34,8 @@ static void align_address(int* address){
 }
 
 static u32_t do_alloc(int* address, size_t size){
-	
 	u32_t ret = *address;
 	*address += size;
-
 	return ret;
 }
 
