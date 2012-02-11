@@ -19,7 +19,6 @@ static int page_frames = 0;
 #define GET_MMAP_OFFSET(page_frame)	(page_frame%32)
 
 void init_mmap(u32_t memory_size) {
-
 	page_frames = memory_size/PAGE_SIZE;	
 	mmap = (u32_t *)kmalloc(page_frames/32); 
 	memset(mmap, 0, page_frames/32);	
