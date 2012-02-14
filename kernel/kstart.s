@@ -10,7 +10,7 @@
 
 [section .text]
 kernel_start:
-		
+	    	
 		call kernel_main				; call the kernel main C function
 
 hang:	jmp hang

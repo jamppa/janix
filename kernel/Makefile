@@ -5,7 +5,7 @@
 CC			= gcc
 CFLAGS		:= -c -Wall -fno-builtin -fomit-frame-pointer -nostdinc -nostdlib -I../include
 AS			= nasm
-AFLAGS		:= -f aout
+AFLAGS		:= -felf
 LS			= link.ld
 LIBS		= ../lib/lib.a
 
@@ -15,8 +15,7 @@ LIBS		= ../lib/lib.a
 		$(AS) $(AFLAGS) -o $*.o $<
 
 OBJS		= kstart.o kmain.o ports.o intr.o isr.o console.o \
-			  keyboard.o tty.o clock.o ../mm/kmalloc.o ../mm/page.o \
-			  ../mm/mmap.o
+			  keyboard.o tty.o clock.o ../mm/kmalloc.o ../mm/page.o ../mm/mmap.o
 
 kernel.o: $(OBJS)
 		ld -T $(LS) -o kernel.bin $(OBJS) $(LIBS)

@@ -14,19 +14,10 @@
 		mov [boot_drive], dl
 		mov si, msg
 		call print
-		call get_memory
 		jmp load_kernel
 halt:
 		hlt
 		jmp halt
-
-get_memory:
-
-		xor ax, ax
-		mov ah, 0x88
-		int 0x15
-		mov [extended_memory], ax
-		ret
 
 print:
 		mov al, [si]
@@ -44,7 +35,7 @@ print:
 load_kernel:
 
 		mov ah, 0x02					; read sectors from drive
-		mov al, 20						; lets read 20 blocks = 512 * 20 = ~10k	
+		mov al, 40						; lets read 40 blocks = 512 * 20 = ~20k	
 		mov ch, 0x00
 		mov cl, 0x02					; from 2. sector
 		mov dh, 0x00
@@ -62,16 +53,12 @@ boot_kernel:
 		mov eax, cr0
 		or eax, 1					; set lowest bit
 		mov cr0, eax				; here it goes! see you in procted mode
-
-		mov eax, cr4
-		or eax, 16					; set fifth bit (PAE Physical Address Extension)
-		mov cr4, eax
 		jmp KERNEL_CODE:kernel_32	; long jump to 32-bit kernel code
 
 [bits 32]
 
 kernel_32:
-
+        
 		mov eax, KERNEL_DATA
 		mov ds, eax
 		mov es, eax
@@ -173,7 +160,6 @@ gdt_desc:
 data:
 		msg db 'Booting Janix...',0		; welcome message
 		boot_drive db 0x00				; store boot drive here
-		extended_memory dw 0x0000		; store extended memory here
 
 		times 510-($-$$) db 0			; fill rest of the bytes
 		dw 0xaa55						; signature for MBR (512 bytes ready)

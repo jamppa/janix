@@ -15,7 +15,6 @@ static void initialize_clock();
 static void initialize_paging();
 
 void kernel_main(){
-
 	init();
 	for (;;);
 }
@@ -33,7 +32,7 @@ static void initialize_paging() {
 }
 
 static void initialize_screen(){
-	init_tty();	
+	init_tty();
 	clear();
 	putsk("Janix 0.0.1 (32-bit protected mode)\n");
 }

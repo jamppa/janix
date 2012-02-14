@@ -23,10 +23,8 @@ typedef struct page_table {
 } page_table_t;
 
 typedef struct page_table_table {
-
 	page_table_t* page_tables[1024];
 	u32_t page_tables_physical[1024];
-
 } page_table_table_t;
 
 extern void init_paging(void);

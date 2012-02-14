@@ -18,6 +18,8 @@ static int page_frames = 0;
 #define GET_MMAP_INDEX(page_frame)	(page_frame/32)
 #define GET_MMAP_OFFSET(page_frame)	(page_frame%32)
 
+static int has_free_frames(int mmap_idx);
+
 void init_mmap(u32_t memory_size) {
 	page_frames = memory_size/PAGE_SIZE;	
 	mmap = (u32_t *)kmalloc(page_frames/32); 
@@ -45,3 +47,29 @@ int test_mmap_bit(u32_t memory_address) {
 	}
 	return 0;
 }
+
+u32_t indexify_address(u32_t address) {
+    return GET_PAGE_FRAME(address);
+}
+
+int first_free_frame() {
+    int i, n;
+    for(i = 0; i < GET_MMAP_INDEX(page_frames); i++) {
+        if(has_free_frames(i)){
+           for(n = 0; n < 32; n++) {
+                if(!(mmap[i] & (0x1 << n))) {
+                    return i * 32 + n;
+                }
+           }
+        }
+    }
+    return -1;
+}
+
+int has_free_frames(int mmap_idx) {
+    if(mmap != NULL) {
+        return mmap[mmap_idx] != 0xffffffff;
+    }
+    return 0;
+}
+
