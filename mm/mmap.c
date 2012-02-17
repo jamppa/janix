@@ -67,8 +67,8 @@ int first_free_frame() {
 }
 
 int has_free_frames(int mmap_idx) {
-    if(mmap != NULL) {
-        return mmap[mmap_idx] != 0xffffffff;
+    if(mmap) {
+        return (mmap[mmap_idx] != 0xffffffff);
     }
     return 0;
 }

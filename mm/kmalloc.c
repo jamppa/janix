@@ -10,10 +10,10 @@
 
 // this is defined in linker script
 extern int kernel_end;
-int free_mem_base = (int)&kernel_end;
+u32_t free_mem_base = (u32_t)&kernel_end;
 
-static void align_address(int* address);
-static u32_t do_alloc(int* address, size_t size);
+static void align_address(u32_t* address);
+static u32_t do_alloc(u32_t* address, size_t size);
 
 void* kmalloc(size_t size){
 	align_address(&free_mem_base);
@@ -28,17 +28,16 @@ void* kmalloc_p(size_t size, u32_t* phys_addr){
 	return (void *)do_alloc(&free_mem_base, size);
 }
 
-static void align_address(int* address){
-	*address &= 0xfffff000;
-	*address += 0x1000;
+static void align_address(u32_t* address){
+    if(*address & 0xfffff000){
+        *address &= 0xfffff000;
+	    *address += 0x1000;
+    }
 }
 
-static u32_t do_alloc(int* address, size_t size){
+static u32_t do_alloc(u32_t* address, size_t size){
 	u32_t ret = *address;
 	*address += size;
 	return ret;
 }
-
-
-
 

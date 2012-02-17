@@ -1,6 +1,6 @@
 # Makefile for kernel
 #
-# Jani Arvonen 2010
+# Jani Arvonen 2012
 
 CC			= gcc
 CFLAGS		:= -c -Wall -fno-builtin -fomit-frame-pointer -nostdinc -nostdlib -I../include
@@ -15,7 +15,8 @@ LIBS		= ../lib/lib.a
 		$(AS) $(AFLAGS) -o $*.o $<
 
 OBJS		= kstart.o kmain.o ports.o intr.o isr.o console.o \
-			  keyboard.o tty.o clock.o ../mm/kmalloc.o ../mm/page.o ../mm/mmap.o
+			  keyboard.o tty.o clock.o ../mm/kmalloc.o ../mm/page.o ../mm/mmap.o \
+			  ../mm/paging.o
 
 kernel.o: $(OBJS)
 		ld -T $(LS) -o kernel.bin $(OBJS) $(LIBS)

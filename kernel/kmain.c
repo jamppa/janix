@@ -2,7 +2,7 @@
    *
    *	kernel main 
    *
-   *	Jani Arvonen 2010
+   *	Jani Arvonen 2012
 */
 
 #include "kernel.h"
@@ -21,14 +21,14 @@ void kernel_main(){
 
 static void init(){
 	initialize_screen();
-	initialize_paging();
 	initialize_interrupts();
 	initialize_clock();
+	initialize_paging();
 }
 
 static void initialize_paging() {
 	init_paging();
-	putsk("Paging initialised.\n");
+	putsk("Paging initialized!\n");
 }
 
 static void initialize_screen(){
@@ -39,10 +39,10 @@ static void initialize_screen(){
 
 static void initialize_interrupts(){
 	init_intr();
-	putsk("Interrupts initialised.\n");
+	putsk("Interrupts initialized!\n");
 }
 
 static void initialize_clock(){
 	init_clock();
-	putsk("Clock initialised.\n");
+	putsk("Clock initialized!\n");
 }

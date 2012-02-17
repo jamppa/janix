@@ -6,6 +6,8 @@
 #define	MEMORY_SIZE		0x2000000		// for now, lets assume it is ~32MB
 #define PAGE_SIZE		0x1000			// page size is 4KB
 
+#define PAGE_FAULT_INT  0xe  
+
 typedef struct page {
 	
 	u32_t is_present	: 1;
