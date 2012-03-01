@@ -20,6 +20,7 @@ static void send_reset_signal_to_slave();
 static void send_reset_signal_to_master();
 
 static int is_valid_int_number(u8_t int_number);
+static void call_handler_by_interrupt(registers_t registers);
 
 void init_intr(){
 	init_idt();
@@ -35,22 +36,15 @@ void register_interrupt_handler(u8_t int_number, int_handler_t handler){
 	}
 }
 
-void isr_handler(registers_t regs){
+void isr_handler(registers_t registers){
 	putsk("Received interrupt: ");
-	puthk(regs.int_number);
+	puthk(registers.int_number);
 	putsk(" !\n");
+    call_handler_by_interrupt(registers);
 }
 
 void irq_handler(registers_t registers){
-
-	int_handler_t handler = interrupt_handlers[registers.int_number];
-	if(handler)
-		handler(registers);
-
-	if(registers.int_number >= 40){
-		send_reset_signal_to_slave();
-	}
-	send_reset_signal_to_master();
+	    call_handler_by_interrupt(registers);
 }
 
 static void init_idt(){
@@ -161,3 +155,14 @@ static int is_valid_int_number(u8_t int_number){
 	return is_valid;
 }
 
+static void call_handler_by_interrupt(registers_t registers) {
+
+	int_handler_t handler = interrupt_handlers[registers.int_number];
+	if(handler)
+		handler(registers);
+
+	if(registers.int_number >= 40){
+		send_reset_signal_to_slave();
+	}
+	send_reset_signal_to_master();
+}

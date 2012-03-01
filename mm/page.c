@@ -8,12 +8,14 @@
 #include <string.h>
 #include <sys/types.h>
 #include <janix/kmalloc.h>
+#include <janix/console.h>
 #include "page.h"
 #include "mmap.h"
 #include "../kernel/intr.h"
 
 extern int free_mem_base;
 extern void enable_paging(u32_t ptt_address);
+extern u32_t get_fault_page_address();
 
 static page_table_table_t* current_ptt = NULL;
 static page_table_table_t* kernel_ptt = NULL;
@@ -102,7 +104,16 @@ static void init_kernel_page(page_t* page, u32_t frame_idx) {
 }
 
 static void pagefault_handler(registers_t regs) {
-    //TODO: write faulting address to screen etc.    
+
+    u32_t fault_address = get_fault_page_address();
+    putsk("page fault at: ");
+    puthk(fault_address);
+    putsk("!\n");
+
+    // panic here!
 }
+
+
+
 
 
