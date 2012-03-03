@@ -14,8 +14,11 @@ static void initialize_interrupts();
 static void initialize_clock();
 static void initialize_paging();
 
+static void do_page_fault();
+
 void kernel_main(){
 	init();
+    //do_page_fault();
 	for (;;);
 }
 
@@ -45,4 +48,10 @@ static void initialize_interrupts(){
 static void initialize_clock(){
 	init_clock();
 	putsk("Clock initialized!\n");
+}
+
+static void do_page_fault() {
+
+    int* fault_ptr = (int *)0xB0000000;
+    *fault_ptr = 1;
 }

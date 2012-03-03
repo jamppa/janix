@@ -29,7 +29,7 @@ void putk(char c){
 	}
 }
 
-void putsk(char* str){
+void putsk(const char* str){
 	if(str){
 		console_puts(current_console, str);
 	}
@@ -109,7 +109,7 @@ void console_clear(console_t* console){
 	move_cursor(console);
 }
 
-void console_puts(console_t* console, char* str){
+void console_puts(console_t* console, const char* str){
 	while(*str){
 		console_putc(console, *str++);
 	}

@@ -5,13 +5,9 @@
    *	Jani Arvonen  2011
  */
 
-#include <string.h>
 #include <sys/types.h>
 #include <janix/kmalloc.h>
-#include <janix/console.h>
-#include "page.h"
-#include "mmap.h"
-#include "../kernel/intr.h"
+#include "../kernel/kernel.h"
 
 extern int free_mem_base;
 extern void enable_paging(u32_t ptt_address);
@@ -108,9 +104,7 @@ static void pagefault_handler(registers_t regs) {
     u32_t fault_address = get_fault_page_address();
     putsk("page fault at: ");
     puthk(fault_address);
-    putsk("!\n");
-
-    // panic here!
+    panic("page fault\n");
 }
 
 

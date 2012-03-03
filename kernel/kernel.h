@@ -2,9 +2,9 @@
 #define _KERNEL_H_
 
 /*
-   * kernel.h - this is the master header which includes other files
-   *
-   * Jani Arvonen 2010
+   * kernel.h - this is the master header which includes other headers. 
+   *            contains also prototypes for general purpose functions etc.
+   * Jani Arvonen 2012
    *
  */
 
@@ -19,5 +19,7 @@
 #include "intr.h"
 #include "keyboard.h"
 #include "clock.h"
+
+extern void panic(const char* message);
 
 #endif

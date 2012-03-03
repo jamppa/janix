@@ -32,10 +32,10 @@ typedef struct console {
 
 extern void console_putc(console_t* console, char c);
 extern void console_clear(console_t* console);
-extern void console_puts(console_t* console, char* str);
+extern void console_puts(console_t* console, const char* str);
 
 extern void putk(char c);
-extern void putsk(char* str);
+extern void putsk(const char* str);
 extern void puthk(u32_t num);
 extern void clear(void);
 
