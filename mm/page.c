@@ -100,10 +100,10 @@ static void init_kernel_page(page_t* page, u32_t frame_idx) {
 }
 
 static void pagefault_handler(registers_t regs) {
-
-    u32_t fault_address = get_fault_page_address();
+    int fault_address = get_fault_page_address();
     putsk("page fault at: ");
     puthk(fault_address);
+    die("", &regs);
     panic("page fault\n");
 }
 

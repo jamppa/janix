@@ -2,10 +2,10 @@
 #define _KERNEL_H_
 
 /*
-   * kernel.h - this is the master header which includes other headers. 
-   *            contains also prototypes for general purpose functions etc.
-   * Jani Arvonen 2012
+   * kernel.h - this is the "master" header which includes other headers. 
+   *            contains also prototypes for some functions
    *
+   *    - Jani Arvonen 2012
  */
 
 #define KERNEL_CODE		0x08
@@ -19,6 +19,7 @@
 #include "intr.h"
 #include "keyboard.h"
 #include "clock.h"
+#include "traps.h"
 
 extern void panic(const char* message);
 

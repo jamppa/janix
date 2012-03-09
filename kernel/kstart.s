@@ -15,7 +15,6 @@ kernel_start:
 
 hang:	jmp hang
 
-
 load_idt:								; function for loading Interrup Descriptor Table
 	mov eax, [esp+4]					; get idt address
 	lidt [eax]

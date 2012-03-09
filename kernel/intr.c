@@ -37,14 +37,11 @@ void register_interrupt_handler(u8_t int_number, int_handler_t handler){
 }
 
 void isr_handler(registers_t registers){
-	putsk("Received interrupt: ");
-	puthk(registers.int_number);
-	putsk(" !\n");
     call_handler_by_interrupt(registers);
 }
 
 void irq_handler(registers_t registers){
-	    call_handler_by_interrupt(registers);
+    call_handler_by_interrupt(registers);
 }
 
 static void init_idt(){

@@ -8,7 +8,7 @@
 #include "kernel.h"
 #include <janix/tty.h>
 
-static void init();
+static void init_kernel();
 static void initialize_screen();
 static void initialize_interrupts();
 static void initialize_clock();
@@ -17,12 +17,11 @@ static void initialize_paging();
 static void do_page_fault();
 
 void kernel_main(){
-	init();
-    //do_page_fault();
+	init_kernel();
 	for (;;);
 }
 
-static void init(){
+static void init_kernel(){
 	initialize_screen();
 	initialize_interrupts();
 	initialize_clock();
@@ -42,6 +41,7 @@ static void initialize_screen(){
 
 static void initialize_interrupts(){
 	init_intr();
+    init_traps();
 	putsk("Interrupts initialized!\n");
 }
 
@@ -50,8 +50,3 @@ static void initialize_clock(){
 	putsk("Clock initialized!\n");
 }
 
-static void do_page_fault() {
-
-    int* fault_ptr = (int *)0xB0000000;
-    *fault_ptr = 1;
-}
