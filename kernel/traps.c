@@ -49,17 +49,19 @@ void init_traps(void) {
 
 }
 
-void die(const char* msg, registers_t* registers) {
-   
-    putsk(msg);
+static void print_eip(registers_t* registers){
     putsk("\n\nEIP: ");
     puthk(registers->cs);
     putsk(":");
     puthk(registers->eip); 
+}
 
+static void print_eflags(registers_t* registers) {
     putsk("\nEFLAGS: ");
     puthk(registers->eflags);
+}
 
+static void print_registers(registers_t* registers) {
     putsk("\n\neax: ");
     puthk(registers->eax);
     putsk("  ebx: ");
@@ -77,11 +79,21 @@ void die(const char* msg, registers_t* registers) {
     puthk(registers->ebp);
     putsk("  esp: ");
     puthk(registers->esp);
+}
 
+static void print_segments(registers_t* registers) {
     putsk("\nds: ");
     puthk(registers->ds);
     putsk("  ss: ");
     puthk(registers->ss);
+}
+
+void die(const char* msg, registers_t* registers) {
+    putsk(msg);
+    print_eip(registers);
+    print_eflags(registers);
+    print_registers(registers);
+    print_segments(registers);
 }
 
 static void division_overflow(registers_t regs) {
