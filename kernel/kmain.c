@@ -1,6 +1,6 @@
 /*
    *
-   *	kernel main 
+   *	kernel main - responsible for initializing kernel 
    *
    *	Jani Arvonen 2012
 */
