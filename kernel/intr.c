@@ -7,8 +7,8 @@
 #include "kernel.h"
 
 int_handler_t interrupt_handlers[NUM_OF_INTERRUPTS];
-IdtGate idt_gates[NUM_OF_INTERRUPTS];
-IdtLocation idt_location;
+idt_gate_t idt_gates[NUM_OF_INTERRUPTS];
+idt_location_t idt_location;
 
 static void init_idt();
 static void init_pics();

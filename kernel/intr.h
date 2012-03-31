@@ -8,7 +8,7 @@
 #define PIC_SLAVE_CMD			PIC_SLAVE
 #define PIC_MASTER_DATA			(PIC_MASTER + 1)
 #define PIC_SLAVE_DATA			(PIC_SLAVE + 1)
-#define PIC_EOI					0x20		/* end of interrupt command */
+#define PIC_EOI					0x20
 
 #define	ICW1					0x11
 #define IRQ0_START				0x20
@@ -41,7 +41,7 @@ struct idt_gate {
 	u16_t isr_addr_high;
 
 } __attribute__ ((packed));
-typedef struct idt_gate IdtGate; 
+typedef struct idt_gate idt_gate_t; 
 
 
 struct idt_location {
@@ -50,7 +50,7 @@ struct idt_location {
 	u32_t base_addr;
 
 } __attribute__ ((packed));
-typedef struct idt_location IdtLocation;
+typedef struct idt_location idt_location_t;
 
 typedef struct registers {
 
