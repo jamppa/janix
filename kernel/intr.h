@@ -32,10 +32,6 @@
 #define IRQ14					46
 #define IRQ15					47
 
-
-/*
-   *	Interrupt Descriptor Table Gate Layout
- */
 struct idt_gate {
 
 	u16_t isr_addr_low;
@@ -48,9 +44,6 @@ struct idt_gate {
 typedef struct idt_gate IdtGate; 
 
 
-/*
-   *	structure holding information about location of IDT
- */
 struct idt_location {
 
 	u16_t limit;
@@ -59,9 +52,6 @@ struct idt_location {
 } __attribute__ ((packed));
 typedef struct idt_location IdtLocation;
 
-/*
-   *	registers structure
- */
 typedef struct registers {
 
 	u32_t ds;
@@ -79,9 +69,8 @@ extern void isr_handler(registers_t registers);
 extern void irq_handler(registers_t registers);
 extern void load_idt(u32_t idt_addr);
 
-/*
-   *	Interrupt Service Routines - CPU dedicated. Actual impls in "isr.s" 
- */
+    // Interrupt Service Routines - CPU dedicated. Actual impls in "isr.s" 
+
 extern void isr_0();
 extern void isr_1();
 extern void isr_2();
@@ -115,9 +104,8 @@ extern void isr_29();
 extern void isr_30();
 extern void isr_31();
 
-/*
-   *	irq or hw int service routines
- */
+
+  	// irq or hw interrupt service routines
 
 extern void irq_0();
 extern void irq_1();
