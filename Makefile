@@ -27,5 +27,5 @@ deepclean: clean
 	(cd kernel; make clean)
 	(cd lib; make clean)
 
-bochs-floppy:
+boot-bochs-floppy:
 	bochs 'boot:floppy' 'floppya: 1_44=kernel.img, status=inserted'
