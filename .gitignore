@@ -5,3 +5,5 @@ tags
 *.img
 *.a
 .tags*
+*.sublime-project
+*.sublime-workspace
