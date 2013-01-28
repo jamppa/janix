@@ -19,7 +19,7 @@ OBJS		= kstart.o kmain.o ports.o intr.o isr.o console.o \
 			  ../mm/paging.o
 
 kernel.o: $(OBJS)
-		ld -T $(LS) -o kernel.bin $(OBJS) $(LIBS)
+		ld -T $(LS) -o kernel.bin -melf_i386 $(OBJS) $(LIBS)
 
 clean:
 		rm -rf *.bin *.o; cd ../mm; rm -rf *.o;
