@@ -3,7 +3,7 @@
 # Jani Arvonen 2012
 
 CC			= gcc
-CFLAGS		:= -c -Wall -fno-builtin -fomit-frame-pointer -nostdinc -nostdlib -I../include
+CFLAGS		:= -c -Wall -fno-builtin -fomit-frame-pointer -nostdinc -nostdlib -m32 -I../include
 AS			= nasm
 AFLAGS		:= -felf
 LS			= link.ld

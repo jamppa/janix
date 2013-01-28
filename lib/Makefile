@@ -1,7 +1,7 @@
 #	Makefile for lib of janix
 
 CC		= gcc
-CFLAGS	= -c -Wall -nostdinc -fno-builtin -I../include
+CFLAGS	= -c -Wall -nostdinc -fno-builtin -m32 -I../include
 
 OBJS	= string.o
 
