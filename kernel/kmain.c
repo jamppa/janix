@@ -1,10 +1,3 @@
-/*
-   *
-   *	kernel main - responsible for initializing kernel 
-   *
-   *	Jani Arvonen 2012
-*/
-
 #include "kernel.h"
 #include <janix/tty.h>
 
@@ -24,11 +17,6 @@ static void init_kernel(){
 	initialize_interrupts();
 	initialize_clock();
 	initialize_paging();
-}
-
-static void say_hello_to_devday() {
-    u32_t* faulting_addr = (u32_t *)0xC0000000;
-    u32_t hello_reaktor_devday = *faulting_addr;
 }
 
 static void initialize_paging() {
