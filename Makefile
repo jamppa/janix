@@ -1,5 +1,3 @@
-# Main Makefile for janix
-
 MAKE		= exec make
 PARTS		= boot/boot.bin lib/lib.a kernel/kernel.bin
 
