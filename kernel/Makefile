@@ -5,7 +5,7 @@
 CC			= gcc
 CFLAGS		:= -c -Wall -fno-builtin -fomit-frame-pointer -nostdinc -nostdlib -m32 -I../include
 AS			= nasm
-AFLAGS		:= -felf
+AFLAGS		:= -f elf32
 LS			= link.ld
 LIBS		= ../lib/lib.a
 
@@ -19,7 +19,7 @@ OBJS		= kstart.o kmain.o ports.o intr.o isr.o console.o \
 			  ../mm/paging.o
 
 kernel.o: $(OBJS)
-		ld -T $(LS) -o kernel.bin -melf_i386 $(OBJS) $(LIBS)
+		ld -T $(LS) -o kernel.elf -melf_i386 $(OBJS) $(LIBS)
 
 clean:
-		rm -rf *.bin *.o; cd ../mm; rm -rf *.o;
+		rm -rf *.elf *.bin *.o; cd ../mm; rm -rf *.o;

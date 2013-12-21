@@ -8,7 +8,10 @@ all:		kernelimage
 kernelimage: $(PARTS) image
 
 image:
-	cat boot/boot.bin kernel/kernel.bin > kernel.img
+	cp -v kernel/kernel.elf iso/boot/ && \
+	genisoimage -R -b boot/grub/stage2_eltorito \
+	-no-emul-boot -boot-load-size 4 -A os \
+	-input-charset utf8 -quiet -boot-info-table -o janix.iso iso
 
 boot/boot.bin:
 	(cd boot; make)
@@ -20,12 +23,12 @@ kernel/kernel.bin: lib/lib.a
 	(cd kernel; make)
 
 clean:
-	(rm -f boot.bin kernel.bin kernel.img)
+	(rm -f janix.iso bochslog.txt)
 
 deepclean: clean
 	(cd boot; make clean) 
 	(cd kernel; make clean)
 	(cd lib; make clean)
 
-boot-bochs-floppy:
-	bochs 'boot:floppy' 'floppya: 1_44=kernel.img, status=inserted'
+run-bochs:
+	bochs -f bochs.txt -q

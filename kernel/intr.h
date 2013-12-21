@@ -104,9 +104,6 @@ extern void isr_29();
 extern void isr_30();
 extern void isr_31();
 
-
-  	// irq or hw interrupt service routines
-
 extern void irq_0();
 extern void irq_1();
 extern void irq_2();

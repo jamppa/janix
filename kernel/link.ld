@@ -1,4 +1,3 @@
-OUTPUT_FORMAT("binary")
 ENTRY(kernel_start)
 SECTIONS
 {
