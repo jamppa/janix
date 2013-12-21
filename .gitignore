@@ -7,3 +7,5 @@ tags
 .tags*
 *.sublime-project
 *.sublime-workspace
+*.iso
+*.elf
