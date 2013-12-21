@@ -9,7 +9,6 @@ static void initialize_paging();
 
 void kernel_main(){
 	init_kernel();
-	for (;;);
 }
 
 static void init_kernel(){

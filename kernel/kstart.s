@@ -1,7 +1,3 @@
-; kstart.asm - call to kernels main c function
-;
-; Jani Arvonen 2010
-
 [bits 32]
 
 [extern kernel_main]
