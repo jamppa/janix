@@ -21,10 +21,3 @@ kernel_start:
 
 hang:	
     jmp hang
-
-load_idt:					
-	mov eax, [esp+4]
-	lidt [eax]
-	sti
-	ret
-	

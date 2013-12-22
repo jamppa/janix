@@ -14,6 +14,7 @@ static gdt_descriptor_t gdt_descriptor(u32_t base, u32_t size, u8_t access);
 void init_gdt() {
     setup_gdt(&gdt, (u32_t)&gdt_descriptors);
     setup_gdt_descriptors(gdt_descriptors);
+    load_gdt((u32_t)&gdt);
 }
 
 static void setup_gdt(gdt_t* gdt, u32_t descriptors_address) {

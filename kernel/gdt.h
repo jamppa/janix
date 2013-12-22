@@ -15,6 +15,7 @@ typedef struct gdt {
     u32_t address; 
 } __attribute__((packed)) gdt_t;
 
+extern void load_gdt(u32_t gdt_address);
 extern void init_gdt();
 
 #endif
