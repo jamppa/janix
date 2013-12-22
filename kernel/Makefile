@@ -10,7 +10,7 @@ LIBS		= ../lib/lib.a
 .s.o:
 		$(AS) $(AFLAGS) -o $*.o $<
 
-OBJS		= kstart.o kmain.o ports.o intr.o isr.o console.o \
+OBJS		= kstart.o kmain.o gdt.o ports.o intr.o isr.o console.o \
 			  keyboard.o tty.o clock.o panic.o traps.o ../mm/kmalloc.o ../mm/page.o ../mm/mmap.o \
 			  ../mm/paging.o
 
