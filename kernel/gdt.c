@@ -40,7 +40,7 @@ static gdt_descriptor_t gdt_descriptor(u32_t base, u32_t size, u8_t access) {
         .base_low = (base & 0xffff),
         .base_middle = ((base >> 16) & 0xff),
         .base_high = ((base >> 24) & 0xff),
-        .granularity = 0xcf,
+        .granularity = 0b11001111,
         .access = access
     };
 }
