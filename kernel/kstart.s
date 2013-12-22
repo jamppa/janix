@@ -16,7 +16,8 @@ align 4
     dd FLAGS
     dd CHECKSUM
 
-kernel_start:    	
+kernel_start:
+    cli    	
     call kernel_main
 
 hang:	

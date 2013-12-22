@@ -103,7 +103,9 @@ static void pagefault_handler(registers_t regs) {
     int fault_address = get_fault_page_address();
     putsk("page fault at: ");
     puthk(fault_address);
-    die("", &regs);
+    putsk("\npage fault error code: ");
+    puthk(regs.error_code);
+    die("\n", &regs);
     panic("page fault\n");
 }
 

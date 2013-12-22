@@ -14,9 +14,9 @@ void kernel_main(){
 
 static void init_kernel(){
 	initialize_screen();
+    initialize_clock();
     initialize_gdt();
 	initialize_interrupts();
-	initialize_clock();
 	initialize_paging();
 }
 
@@ -33,12 +33,13 @@ static void initialize_paging() {
 static void initialize_screen(){
 	init_tty();
 	clear();
-	putsk("Janix kernel 0.0.1\n\n\n");
+	putsk("Janix kernel 0.0.1\n\n");
 }
 
 static void initialize_interrupts(){
 	init_intr();
     init_traps();
+    sti();
 	putsk("Interrupts initialized...\n");
 }
 
