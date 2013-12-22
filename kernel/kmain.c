@@ -6,6 +6,7 @@ static void initialize_screen();
 static void initialize_interrupts();
 static void initialize_clock();
 static void initialize_paging();
+static void initialize_gdt();
 
 void kernel_main(){
 	init_kernel();
@@ -13,30 +14,36 @@ void kernel_main(){
 
 static void init_kernel(){
 	initialize_screen();
+    initialize_gdt();
 	initialize_interrupts();
 	initialize_clock();
 	initialize_paging();
 }
 
+static void initialize_gdt() {
+    init_gdt();
+    putsk("Segmentation initialized...\n");
+}
+
 static void initialize_paging() {
 	init_paging();
-	putsk("Paging initialized!\n");
+	putsk("Paging initialized...\n");
 }
 
 static void initialize_screen(){
 	init_tty();
 	clear();
-	putsk("Janix 0.0.1 (32-bit protected mode)\n");
+	putsk("Janix kernel 0.0.1\n\n\n");
 }
 
 static void initialize_interrupts(){
 	init_intr();
     init_traps();
-	putsk("Interrupts initialized!\n");
+	putsk("Interrupts initialized...\n");
 }
 
 static void initialize_clock(){
 	init_clock();
-	putsk("Clock initialized!\n");
+	putsk("Clock initialized...\n");
 }
 
