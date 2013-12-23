@@ -8,7 +8,7 @@ static void initialize_clock();
 static void initialize_paging();
 static void initialize_gdt();
 
-void kernel_main(){
+void kernel_main() {
 	init_kernel();
 }
 
