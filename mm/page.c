@@ -1,10 +1,3 @@
-/*
-   *
-   *	page.c	-	routines for paging and frame allocation
-   *
-   *	Jani Arvonen  2011
- */
-
 #include <sys/types.h>
 #include <janix/kmalloc.h>
 #include "../kernel/kernel.h"

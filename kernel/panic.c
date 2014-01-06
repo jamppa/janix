@@ -1,7 +1,3 @@
-/*
- *      Jani Arvonen 2012
- * */
-
 #include "kernel.h"
 
 void panic(const char* message) {
