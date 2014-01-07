@@ -3,8 +3,8 @@
 
 #include <sys/types.h>
 
-#define	MEMORY_SIZE		0x2000000		// for now, lets assume it is ~32MB
-#define PAGE_SIZE		0x1000			// page size is 4KB
+#define	MEMORY_SIZE		0x2000000
+#define PAGE_SIZE		0x1000
 
 #define PAGE_FAULT_INT  0xe  
 
@@ -24,13 +24,14 @@ typedef struct page_table {
 	page_t pages[1024];
 } page_table_t;
 
-typedef struct page_table_table {
+typedef struct page_directory {
 	page_table_t* page_tables[1024];
 	u32_t page_tables_physical[1024];
-} page_table_table_t;
+} page_directory_t;
 
 extern void init_paging(void);
-extern void load_page_table_table(page_table_table_t* ptt);
-extern page_t* get_page(u32_t address, page_table_table_t* ptt);
+extern void load_page_table_table(page_directory_t* pd);
+
+extern page_t* get_page(u32_t address, page_directory_t* pd);
 
 #endif

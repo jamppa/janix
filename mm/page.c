@@ -6,13 +6,13 @@ extern int free_mem_base;
 extern void enable_paging(u32_t ptt_address);
 extern u32_t get_fault_page_address();
 
-static page_table_table_t* current_ptt = NULL;
-static page_table_table_t* kernel_ptt = NULL;
-static page_table_table_t* alloc_ptt(void);
+static page_directory_t* current_ptt = NULL;
+static page_directory_t* kernel_ptt = NULL;
+static page_directory_t* alloc_ptt(void);
 
-static int has_page_table(u32_t address, page_table_table_t* ptt);
-static void identity_map_kernel(page_table_table_t* ptt);
-static void alloc_kernel_page_table(u32_t address, page_table_table_t* ptt);
+static int has_page_table(u32_t address, page_directory_t* ptt);
+static void identity_map_kernel(page_directory_t* ptt);
+static void alloc_kernel_page_table(u32_t address, page_directory_t* ptt);
 static void alloc_kernel_page_frame(page_t* page);
 static void init_kernel_page(page_t* page, u32_t frame_idx);
 
@@ -28,22 +28,22 @@ void init_paging(void) {
     load_page_table_table(kernel_ptt);
 }
 
-void load_page_table_table(page_table_table_t* ptt) {
+void load_page_table_table(page_directory_t* ptt) {
     current_ptt = ptt;
     u32_t ptt_addr = (u32_t)&ptt->page_tables_physical;
     enable_paging(ptt_addr);
 }
 
-page_t* get_page(u32_t memory_address, page_table_table_t* ptt) {
+page_t* get_page(u32_t memory_address, page_directory_t* ptt) {
     u32_t idx = indexify_address(memory_address) / 1024;
     return &ptt->page_tables[idx]->pages[indexify_address(memory_address) % 1024];
 }
 
-static void alloc_kernel_page_table(u32_t address, page_table_table_t* ptt) {
+static void alloc_kernel_page_table(u32_t address, page_directory_t* ptt) {
     u32_t physical_address = 0;
     u32_t page_table_idx = indexify_address(address) / 1024;
     ptt->page_tables[page_table_idx] = 
-        (page_table_t *)kmalloc_p(sizeof(page_table_t), &physical_address);
+        (page_table_t *) kmalloc_p(sizeof(page_table_t), &physical_address);
     memset(ptt->page_tables[page_table_idx], 0, sizeof(page_table_t));
     ptt->page_tables_physical[page_table_idx] = physical_address | 0x7;
 }
@@ -58,7 +58,7 @@ static void alloc_kernel_page_frame(page_t* page) {
     }
 }
 
-static void identity_map_kernel(page_table_table_t* ptt) {
+static void identity_map_kernel(page_directory_t* ptt) {
     u32_t current_address = 0x0;
     while(current_address < free_mem_base){
        if(!has_page_table(current_address, ptt)) {
@@ -70,15 +70,15 @@ static void identity_map_kernel(page_table_table_t* ptt) {
     }
 }
 
-static int has_page_table(u32_t address, page_table_table_t* ptt) {
+static int has_page_table(u32_t address, page_directory_t* ptt) {
     if(ptt->page_tables[indexify_address(address) / 1024]){
         return 1;
     }
     return 0;
 }
 
-static page_table_table_t* alloc_ptt(void) {
-	page_table_table_t* ptt = (page_table_table_t *)kmalloc(sizeof(page_table_table_t)); 
+static page_directory_t* alloc_ptt(void) {
+	page_directory_t* ptt = (page_directory_t *)kmalloc(sizeof(page_directory_t)); 
 	memset(ptt, 0, sizeof(*ptt));
 	return ptt;
 }
