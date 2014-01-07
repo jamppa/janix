@@ -30,7 +30,7 @@ typedef struct page_directory {
 } page_directory_t;
 
 extern void init_paging(void);
-extern void load_page_table_table(page_directory_t* pd);
+extern void load_page_directory(page_directory_t* pd);
 
 extern page_t* get_page(u32_t address, page_directory_t* pd);
 
