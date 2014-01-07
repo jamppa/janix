@@ -1,9 +1,3 @@
-/*
-   *	intr.c - Interrupt related functions. IDT initialization etc.
-   *
-   *	Jani Arvonen 2010
- */
-
 #include "kernel.h"
 
 int_handler_t interrupt_handlers[NUM_OF_INTERRUPTS];
