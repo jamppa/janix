@@ -8,7 +8,7 @@ static void initialize_clock();
 static void initialize_paging();
 static void initialize_gdt();
 
-void kernel_main(struct multiboot *pmultiboot) {
+void kernel_main(/*struct multiboot *pmultiboot*/) {
 	init_kernel();
 }
 

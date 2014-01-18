@@ -13,5 +13,6 @@ extern u32_t* new_bitmap(size_t size);
 extern void set_bitmap_bit(bitmap_entry_t* entry);
 extern void clear_bitmap_bit(bitmap_entry_t* entry);
 extern int test_bitmap_bit(bitmap_entry_t* entry);
+extern bitmap_entry_t first_free_bit(u32_t* bitmap, size_t size);
 
 #endif
