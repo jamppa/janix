@@ -12,6 +12,6 @@ typedef struct bitmap_entry {
 extern u32_t* new_bitmap(size_t size);
 extern void set_bitmap_bit(bitmap_entry_t* entry);
 extern void clear_bitmap_bit(bitmap_entry_t* entry);
-extern void test_bitmap_bit(bitmap_entry_t* entry);
+extern int test_bitmap_bit(bitmap_entry_t* entry);
 
 #endif

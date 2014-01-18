@@ -1,3 +1,4 @@
+#include <janix/kmalloc.h>
 #include <sys/types.h>
 #include <string.h>
 #include <bitmap.h>
@@ -9,13 +10,20 @@ u32_t* new_bitmap(size_t size) {
 }
 
 void set_bitmap_bit(bitmap_entry_t* entry) {
-
+    if(entry && entry->bitmap) {
+        entry->bitmap[entry->index] |= (0x1 << entry->offset);
+    }
 }
 
 void clear_bitmap_bit(bitmap_entry_t* entry) {
-
+    if(entry && entry->bitmap) {
+        entry->bitmap[entry->index] &= ~(0x1 << entry->offset);   
+    }
 }
 
-void test_bitmap_bit(bitmap_entry_t* entry) {
-    
+int test_bitmap_bit(bitmap_entry_t* entry) {
+    if(entry && entry->bitmap) {
+        return entry->bitmap[entry->index] & (0x1 << entry->offset);
+    }
+    return 0;
 }
