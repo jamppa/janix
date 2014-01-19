@@ -31,9 +31,9 @@ int test_bitmap_bit(bitmap_entry_t* entry) {
     return 0;
 }
 
-bitmap_entry_t first_free_bit(u32_t* bitmap, size_t size) {
+bitmap_entry_t first_free_bit(u32_t* bitmap, size_t length) {
     int i, n;
-    for(i = 0; i < size; i++) {
+    for(i = 0; i < length; i++) {
         if(has_free_bits_in_index(bitmap, i)){
            for(n = 0; n < 32; n++) {
                 if(!(bitmap[i] & (0x1 << n))) {
