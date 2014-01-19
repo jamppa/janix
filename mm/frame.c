@@ -1,16 +1,22 @@
 #include <sys/types.h>
 #include <bitmap.h>
 #include "frame.h"
+#include "../kernel/kernel.h"
 
 static u32_t num_of_page_frames = 0;
 static u32_t memory_bitmap_size = 0;
 static u32_t* memory_bitmap = NULL;
 
+static u32_t memory_size = 0;
+static u32_t page_size = 0;
+
 static u32_t frame_addr(bitmap_entry_t* entry);
 static u32_t frame_addr_to_mmap_index(u32_t frame_addr);
 static u32_t frame_addr_to_mmap_offset(u32_t frame_addr);
 
-void init_frame_allocator(u32_t memory_size, u32_t page_size) {
+void init_frame_allocator(u32_t mem_size, u32_t p_size) {
+    memory_size = mem_size;
+    page_size = p_size;
     num_of_page_frames = memory_size / page_size;
     memory_bitmap_size = num_of_page_frames / 32;
     memory_bitmap = (u32_t *) new_bitmap(memory_bitmap_size * sizeof(u32_t));
@@ -31,6 +37,13 @@ void free_frame(u32_t frame_addr) {
     bitmap_entry_t entry = new_bitmap_entry(
         memory_bitmap, frame_addr_to_mmap_index(frame_addr), frame_addr_to_mmap_offset(frame_addr));
     clear_bitmap_bit(&entry);
+}
+
+u32_t memory_addr_to_frame_addr(u32_t memory_addr) {
+    if(page_size == 0){
+        panic("frame allocator not initialized!");
+    }
+    return memory_addr / page_size;
 }
 
 static u32_t frame_addr(bitmap_entry_t* entry) {

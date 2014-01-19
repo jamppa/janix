@@ -20,6 +20,8 @@ static void pagefault_handler(registers_t regs);
 void init_paging(void) {
 
 	init_mmap(MEMORY_SIZE);
+    init_frame_allocator(MEMORY_SIZE, PAGE_SIZE);
+
 	kernel_pd = alloc_pd();
     identity_map_kernel(kernel_pd);
     
@@ -75,7 +77,7 @@ static int has_page_table(u32_t address, page_directory_t* ptt) {
     return 0;
 }
 
-static page_directory_t* alloc_pd(void) {
+static page_directory_t* alloc_pd() {
 	page_directory_t* ptt = (page_directory_t *)kmalloc(sizeof(page_directory_t)); 
 	memset(ptt, 0, sizeof(*ptt));
 	return ptt;
