@@ -4,6 +4,7 @@
 #include <sys/types.h>
 
 extern void init_frame_allocator(u32_t memory_size, u32_t page_size);
-extern u32_t alloc_next_free_frame();
+extern int alloc_frame();
+extern void free_frame();
 
 #endif

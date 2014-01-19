@@ -4,7 +4,6 @@
 #include <bitmap.h>
 
 static int has_free_bits_in_index(u32_t* bitmap, u32_t idx);
-static bitmap_entry_t new_bitmap_entry(u32_t* bitmap, u32_t idx, u32_t offset);
 
 u32_t* new_bitmap(size_t size) {
     u32_t* map = (u32_t *) kmalloc(size); 
@@ -45,7 +44,7 @@ bitmap_entry_t first_free_bit(u32_t* bitmap, size_t length) {
     return new_bitmap_entry(0, 0, 0);
 }
 
-static bitmap_entry_t new_bitmap_entry(u32_t* bitmap, u32_t idx, u32_t offset) {
+bitmap_entry_t new_bitmap_entry(u32_t* bitmap, u32_t idx, u32_t offset) {
     return (bitmap_entry_t) {
         .bitmap = bitmap,
         .index = idx,
