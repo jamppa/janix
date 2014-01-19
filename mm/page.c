@@ -7,7 +7,7 @@ extern void enable_paging(u32_t ptt_address);
 extern u32_t get_fault_page_address();
 
 static page_directory_t* kernel_pd = NULL;
-static page_directory_t* alloc_ptt(void);
+static page_directory_t* alloc_pd(void);
 
 static int has_page_table(u32_t address, page_directory_t* ptt);
 static void identity_map_kernel(page_directory_t* ptt);
@@ -20,7 +20,7 @@ static void pagefault_handler(registers_t regs);
 void init_paging(void) {
 
 	init_mmap(MEMORY_SIZE);
-	kernel_pd = alloc_ptt();
+	kernel_pd = alloc_pd();
     identity_map_kernel(kernel_pd);
     
     register_interrupt_handler(PAGE_FAULT_INT, pagefault_handler);
@@ -75,7 +75,7 @@ static int has_page_table(u32_t address, page_directory_t* ptt) {
     return 0;
 }
 
-static page_directory_t* alloc_ptt(void) {
+static page_directory_t* alloc_pd(void) {
 	page_directory_t* ptt = (page_directory_t *)kmalloc(sizeof(page_directory_t)); 
 	memset(ptt, 0, sizeof(*ptt));
 	return ptt;
