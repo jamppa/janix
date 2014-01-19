@@ -6,7 +6,6 @@ extern int free_mem_base;
 extern void enable_paging(u32_t ptt_address);
 extern u32_t get_fault_page_address();
 
-static page_directory_t* current_pd = NULL;
 static page_directory_t* kernel_pd = NULL;
 static page_directory_t* alloc_ptt(void);
 
@@ -29,7 +28,6 @@ void init_paging(void) {
 }
 
 void load_page_directory(page_directory_t* ptt) {
-    current_pd = ptt;
     u32_t ptt_addr = (u32_t)&ptt->page_tables_physical;
     enable_paging(ptt_addr);
 }
