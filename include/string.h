@@ -15,6 +15,8 @@ extern void* memset(void* dest, int val, size_t count);
  * used through-out, making for "slightly" unclear code :-)
  *
  *      (C) 1991 Linus Torvalds
+ *
+ *      Jeah, following inline functions are borrowed from linux 0.01 :)
  */
  
 extern inline char * strcpy(char * dest,const char *src)
