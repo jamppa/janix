@@ -1,10 +1,3 @@
-/*
-   *
-   *	kmalloc.c	-	simple memory allocation functions.
-   *	
-   *	Jani Arvonen 2011
- */
-
 #include <janix/kmalloc.h>
 #include <sys/types.h>
 

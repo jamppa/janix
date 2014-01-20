@@ -6,6 +6,7 @@
 
 #include <sys/types.h>
 #include <string.h>
+#include <bitmap.h>
 #include <janix/console.h>
 #include <janix/mm.h>
 #include "gdt.h"

@@ -12,16 +12,16 @@ static page_directory_t* alloc_pd(void);
 static int has_page_table(u32_t address, page_directory_t* ptt);
 static void identity_map_kernel(page_directory_t* ptt);
 static void alloc_kernel_page_table(u32_t address, page_directory_t* ptt);
-static void alloc_kernel_page_frame(page_t* page);
-static void init_kernel_page(page_t* page, u32_t frame_idx);
-
+static void alloc_kernel_page(page_t* page);
+static void init_kernel_page(page_t* page, u32_t frame_addr);
 static void pagefault_handler(registers_t regs);
+
+static u32_t memory_addr_to_page_table(u32_t memory_addr);
+static u32_t memory_addr_to_page(u32_t memory_addr);
 
 void init_paging(void) {
 
-	init_mmap(MEMORY_SIZE);
     init_frame_allocator(MEMORY_SIZE, PAGE_SIZE);
-
 	kernel_pd = alloc_pd();
     identity_map_kernel(kernel_pd);
     
@@ -34,27 +34,28 @@ void load_page_directory(page_directory_t* ptt) {
     enable_paging(ptt_addr);
 }
 
-page_t* get_page(u32_t memory_address, page_directory_t* ptt) {
-    u32_t idx = indexify_address(memory_address) / 1024;
-    return &ptt->page_tables[idx]->pages[indexify_address(memory_address) % 1024];
+page_t* get_page(u32_t memory_address, page_directory_t* pd) {
+    u32_t page_table = memory_addr_to_page_table(memory_address);
+    u32_t page = memory_addr_to_page(memory_address);
+    return &pd->page_tables[page_table]->pages[page];
 }
 
-static void alloc_kernel_page_table(u32_t address, page_directory_t* ptt) {
-    u32_t physical_address = 0;
-    u32_t page_table_idx = indexify_address(address) / 1024;
-    ptt->page_tables[page_table_idx] = 
-        (page_table_t *) kmalloc_p(sizeof(page_table_t), &physical_address);
-    memset(ptt->page_tables[page_table_idx], 0, sizeof(page_table_t));
-    ptt->page_tables_physical[page_table_idx] = physical_address | 0x7;
+static void alloc_kernel_page_table(u32_t address, page_directory_t* pd) {
+    u32_t memory_addr_phys = 0;
+    u32_t page_table = memory_addr_to_page_table(address);
+    pd->page_tables[page_table] = 
+        (page_table_t *) kmalloc_p(sizeof(page_table_t), &memory_addr_phys);
+    memset(pd->page_tables[page_table], 0, sizeof(page_table_t));
+    pd->page_tables_physical[page_table] = memory_addr_phys | 0x7;
 }
 
-static void alloc_kernel_page_frame(page_t* page) {
+static void alloc_kernel_page(page_t* page) {
     if(page != NULL && page->frame_addr == 0) {
-       int frame_idx = first_free_frame();
-       if(frame_idx != -1) {
-            set_mmap_bit(frame_idx * PAGE_SIZE);
-            init_kernel_page(page, frame_idx);
-       }
+        int frame_addr = alloc_frame();
+        if(frame_addr == -1){
+            panic("no free frames!");
+        }
+        init_kernel_page(page, frame_addr);
     }
 }
 
@@ -65,13 +66,13 @@ static void identity_map_kernel(page_directory_t* ptt) {
            alloc_kernel_page_table(current_address, ptt);
        }
        page_t* page = get_page(current_address, ptt);
-       alloc_kernel_page_frame(page);
+       alloc_kernel_page(page);
        current_address += PAGE_SIZE;
     }
 }
 
-static int has_page_table(u32_t address, page_directory_t* ptt) {
-    if(ptt->page_tables[indexify_address(address) / 1024]){
+static int has_page_table(u32_t address, page_directory_t* pd) {
+    if(pd->page_tables[memory_addr_to_page_table(address)]){
         return 1;
     }
     return 0;
@@ -83,12 +84,12 @@ static page_directory_t* alloc_pd() {
 	return ptt;
 }
 
-static void init_kernel_page(page_t* page, u32_t frame_idx) {
+static void init_kernel_page(page_t* page, u32_t frame_addr) {
     if(page){
         page->is_present = 1;
         page->read_write = 1;
         page->is_user = 0;
-        page->frame_addr = frame_idx;
+        page->frame_addr = frame_addr;
     }
 }
 
@@ -102,7 +103,10 @@ static void pagefault_handler(registers_t regs) {
     panic("page fault\n");
 }
 
+static u32_t memory_addr_to_page_table(u32_t memory_addr) {
+    return memory_addr_to_frame_addr(memory_addr) / 1024;
+}
 
-
-
-
+static u32_t memory_addr_to_page(u32_t memory_addr) {
+    return memory_addr_to_frame_addr(memory_addr) % 1024;
+}
