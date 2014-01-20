@@ -1,8 +1,8 @@
 #include <sys/types.h>
 #include <janix/kmalloc.h>
 #include "../kernel/kernel.h"
+#include "page.h"
 
-extern int free_mem_base;
 extern void enable_paging(u32_t ptt_address);
 extern u32_t get_fault_page_address();
 

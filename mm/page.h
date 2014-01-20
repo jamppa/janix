@@ -29,6 +29,8 @@ typedef struct page_directory {
 	u32_t page_tables_physical[1024];
 } page_directory_t;
 
+extern int free_mem_base;
+
 extern void init_paging(void);
 extern void load_page_directory(page_directory_t* pd);
 
