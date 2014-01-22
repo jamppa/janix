@@ -22,29 +22,29 @@ static void init_kernel(){
 
 static void initialize_gdt() {
     init_gdt();
-    putsk("Segmentation initialized...\n");
+    printk("- GDT loaded\n");
 }
 
 static void initialize_paging() {
 	init_paging();
-	putsk("Paging initialized...\n");
+	printk("- Paging enabled\n");
 }
 
 static void initialize_screen(){
 	init_tty();
 	clear();
-	putsk("Janix kernel 0.0.1\n\n");
+	printk("Booting Janix 0.01\n******************\n");
 }
 
 static void initialize_interrupts(){
 	init_intr();
     init_traps();
     sti();
-	putsk("Interrupts initialized...\n");
+	printk("- Interrupts enabled\n");
 }
 
 static void initialize_clock(){
 	init_clock();
-	putsk("Clock initialized...\n");
+	printk("- Clock enabled\n");
 }
 

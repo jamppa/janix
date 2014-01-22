@@ -2,6 +2,7 @@
 #define _STDARG_H
 
 typedef char *va_list;
+extern int vsprintf(char* buf, const char* format, va_list args);
 
 /* Amount of space required in an argument list for an arg of type TYPE.
    TYPE may alternatively be an expression whose type is used.  */

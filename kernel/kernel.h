@@ -17,5 +17,6 @@
 #include "traps.h"
 
 extern void panic(const char* message);
+extern int printk(const char* format, ...);
 
 #endif

@@ -16,6 +16,8 @@
 #define TAB_MASK			7
 #define TAB_SIZE			8
 
+#include <sys/types.h>
+
 typedef struct console {
 	
 	u16_t* video_memory_addr;
