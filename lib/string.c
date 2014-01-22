@@ -1,11 +1,5 @@
-/*
-   *	string.c - functions related to string/memory manipulation
-   *
-   *	Jani Arvonen 2010
- */
-
-#include <sys/types.h>
 #include <string.h>
+#include <sys/types.h>
 
 void* memset(void* dest, int c, size_t n){
 
@@ -15,4 +9,10 @@ void* memset(void* dest, int c, size_t n){
 		*p_dest++ = c;
 	}
 	return dest;
+}
+
+size_t strlen(const char* str) {
+    const char* i = str;
+    while(*i++ != '\0') {}
+    return i - str - 1;
 }
