@@ -94,13 +94,10 @@ static void init_kernel_page(page_t* page, u32_t frame_addr) {
 }
 
 static void pagefault_handler(registers_t regs) {
+    die("page fault:", &regs);
     int fault_address = get_fault_page_address();
-    putsk("page fault at: ");
-    puthk(fault_address);
-    putsk("\npage fault error code: ");
-    puthk(regs.error_code);
-    die("\n", &regs);
-    panic("page fault\n");
+    printk("\npage fault at: %08x\npage fault error code: %08x", fault_address, regs.error_code);
+    panic("sorry but I'm done :)");
 }
 
 static u32_t memory_addr_to_page_table(u32_t memory_addr) {

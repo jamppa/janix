@@ -1,9 +1,3 @@
-/*
- *  functions for handling hw traps and faults.
- *
- *  - Jani Arvonen 2012
- */
-
 #include "kernel.h"
 
 static void division_overflow(registers_t regs);
@@ -50,46 +44,24 @@ void init_traps(void) {
 }
 
 static void print_eip(registers_t* registers){
-    putsk("\n\nEIP: ");
-    puthk(registers->cs);
-    putsk(":");
-    puthk(registers->eip); 
+    printk("EIP:\t%04x:%p", registers->cs, registers->eip); 
 }
 
 static void print_eflags(registers_t* registers) {
-    putsk("\nEFLAGS: ");
-    puthk(registers->eflags);
+    printk("\nEFLAGS:\t%p", registers->eflags);
 }
 
 static void print_registers(registers_t* registers) {
-    putsk("\n\neax: ");
-    puthk(registers->eax);
-    putsk("  ebx: ");
-    puthk(registers->ebx);
-    putsk("  ecx: ");
-    puthk(registers->ecx);
-    putsk("  edx: ");
-    puthk(registers->edx);
-   
-    putsk("\nesi: ");
-    puthk(registers->esi);
-    putsk("  edi: ");
-    puthk(registers->edi);
-    putsk("  ebp: ");
-    puthk(registers->ebp);
-    putsk("  esp: ");
-    puthk(registers->esp);
+    printk("\n\neax: %08x\tebx: %08x\tecx: %08x\tedx: %08x", registers->eax, registers->ebx, registers->ecx, registers->edx);   
+    printk("\nesi: %08x\tedi: %08x\tebp: %08x\tesp: %08x", registers->esi, registers->edi, registers->ebp, registers->esp);
 }
 
 static void print_segments(registers_t* registers) {
-    putsk("\nds: ");
-    puthk(registers->ds);
-    putsk("  ss: ");
-    puthk(registers->ss);
+    printk("\nds: %08x\tss: %08x", registers->ds, registers->ss);
 }
 
 void die(const char* msg, registers_t* registers) {
-    putsk(msg);
+    printk("\n%s\n", msg);
     print_eip(registers);
     print_eflags(registers);
     print_registers(registers);

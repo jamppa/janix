@@ -18,6 +18,9 @@ static void init_kernel(){
     initialize_gdt();
 	initialize_interrupts();
 	initialize_paging();
+    int *p = (int *)0xA0000000;
+    int do_fault = *p;
+    do_fault++;
 }
 
 static void initialize_gdt() {
