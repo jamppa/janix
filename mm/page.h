@@ -30,10 +30,8 @@ typedef struct page_directory {
 } page_directory_t;
 
 extern int free_mem_base;
-
 extern void init_paging(void);
-extern void load_page_directory(page_directory_t* pd);
-
-extern page_t* get_page(u32_t address, page_directory_t* pd);
+extern void map_kernel_page(u32_t frame_addr, u32_t virtual_addr);
+extern void unmap_kernel_page(u32_t virtual_addr);
 
 #endif

@@ -5,7 +5,9 @@
 
 [extern isr_handler]			; upper lever ISR handler which is called from here
 [extern irq_handler]			; upper level IRQ handler
-[global sti] 
+[global sti]
+[global cli]
+[global hlt]
 
 ; Two macros for ISR stubs. We're lazy and dont want to write duplicate code
 ; ISR_WITH_ERRCODE is meant to be used with isr's which report the error code
@@ -150,3 +152,12 @@ irq_common:
 
 sti:
     sti
+    ret
+
+cli:
+    cli
+    ret
+
+hlt:
+    hlt
+    ret

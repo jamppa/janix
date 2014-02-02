@@ -12,7 +12,7 @@ LIBS		= ../lib/lib.a
 
 OBJS		= kstart.o kmain.o gdt.o ports.o intr.o isr.o descriptor_tables.o console.o \
 			  keyboard.o tty.o clock.o panic.o traps.o vsprintf.o printk.o ../mm/kmalloc.o ../mm/page.o \
-			  ../mm/paging.o ../mm/frame.o
+			  ../mm/paging.o ../mm/frame.o ../mm/kheap.o
 
 kernel.o: $(OBJS)
 		ld -T $(LS) -o kernel.elf -melf_i386 $(OBJS) $(LIBS)

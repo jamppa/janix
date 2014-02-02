@@ -1,5 +1,6 @@
 #include "kernel.h"
 #include <janix/tty.h>
+#include <liballoc.h>
 
 static void init_kernel();
 static void initialize_screen();
@@ -9,18 +10,18 @@ static void initialize_paging();
 static void initialize_gdt();
 
 void kernel_main(/*struct multiboot *pmultiboot*/) {
+    cli();
 	init_kernel();
+    sti();
+    for(;;);
 }
 
 static void init_kernel(){
 	initialize_screen();
-    initialize_clock();
     initialize_gdt();
 	initialize_interrupts();
 	initialize_paging();
-    int *p = (int *)0xA0000000;
-    int do_fault = *p;
-    do_fault++;
+    initialize_clock();
 }
 
 static void initialize_gdt() {
@@ -42,8 +43,7 @@ static void initialize_screen(){
 static void initialize_interrupts(){
 	init_intr();
     init_traps();
-    sti();
-	printk("- Interrupts enabled\n");
+	printk("- Interrupts initialized\n");
 }
 
 static void initialize_clock(){

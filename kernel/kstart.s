@@ -25,9 +25,10 @@ mboot:
     dd kernel_start
 
 kernel_start:
-    push ebx
-    cli    	
+    push ebx    	
     call kernel_main
+    cli
+    hlt
 
 hang:	
     jmp hang

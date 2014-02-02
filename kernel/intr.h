@@ -69,6 +69,8 @@ extern void isr_handler(registers_t registers);
 extern void irq_handler(registers_t registers);
 extern void load_idt(u32_t idt_addr);
 extern void sti();
+extern void cli();
+extern void hlt();
 
     // Interrupt Service Routines - CPU dedicated. Actual impls in "isr.s" 
 
