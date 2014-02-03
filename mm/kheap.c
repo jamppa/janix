@@ -9,6 +9,8 @@
 static heap_t *kheap = NULL;
 static heap_t* allocate_kernel_heap();
 
+static bool heap_allocable(int num_of_pages);
+
 heap_t* init_kernel_heap() {
     kheap = allocate_kernel_heap();
     return kheap;
@@ -25,6 +27,11 @@ int liballoc_unlock() {
 }
 
 void* liballoc_alloc(int num_of_pages) {
+
+    if(!heap_allocable(num_of_pages)){
+        return NULL;
+    }
+
     void* current_addr = (void *)kheap->current_addr;
     while(num_of_pages > 0) {
         map_kernel_page(alloc_frame(), kheap->current_addr);
@@ -41,6 +48,16 @@ int liballoc_free(void* address, int num_of_pages) {
         num_of_pages--;
     }
     return 0;
+}
+
+static bool heap_allocable(int num_of_pages) {
+    if(kheap == NULL){
+        return false;
+    }
+    if(kheap->current_addr + (num_of_pages * PAGE_SIZE) > kheap->end_addr) {
+        return false;
+    }
+    return true;
 }
 
 static heap_t* allocate_kernel_heap() {

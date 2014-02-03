@@ -30,6 +30,12 @@ typedef unsigned long sigset_t;
 #define NULL	((void *) 0)
 #endif
 
+#ifndef BOOL
+typedef int bool;
+#define true    1
+#define false   0
+#endif
+
 
 /* Types used in disk, inode, etc. data structures. */
 typedef short          dev_t;	   /* holds (major|minor) device pair */
