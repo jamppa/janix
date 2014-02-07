@@ -1,15 +1,6 @@
-/*
-   *
-   * ports.c - functions to read/write I/O ports
-   *
-   * Jani Arvonen 2010
- */
-
 #include "kernel.h"
 
 void out_byte(u16_t port, u8_t value){
-	
-	//asm volatile (".intel_syntax noprefix");
 	asm volatile ("outb %1, %0": : "dN" (port), "a" (value));
 }
 
