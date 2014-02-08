@@ -1,4 +1,5 @@
 #include "kernel.h"
+#include "multiboot.h"
 #include <janix/tty.h>
 #include <liballoc.h>
 
@@ -9,8 +10,7 @@ static void initialize_clock();
 static void initialize_paging();
 static void initialize_gdt();
 
-void kernel_main(/*struct multiboot *pmultiboot*/) {
-    cli();
+void kernel_main(multiboot_info_t* mb) {
 	init_kernel();
     sti();
     for(;;);

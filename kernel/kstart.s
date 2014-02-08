@@ -25,6 +25,7 @@ mboot:
     dd kernel_start
 
 kernel_start:
+    cli
     push ebx    	
     call kernel_main
     cli
