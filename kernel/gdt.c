@@ -31,8 +31,14 @@ static void setup_gdt_descriptors(gdt_descriptor_t* descriptors) {
 }
 
 static gdt_descriptor_t gdt_null_descriptor() {
-    return (gdt_descriptor_t) {.size_low = 0, .base_low = 0, .base_middle = 0, 
-            .access = 0, .granularity = 0, .base_high = 0};
+    return (gdt_descriptor_t) {
+        .size_low = 0,
+        .base_low = 0,
+        .base_middle = 0, 
+        .access = 0,
+        .granularity = 0,
+        .base_high = 0
+    };
 }
 
 static gdt_descriptor_t gdt_descriptor(u32_t base, u32_t size, u8_t access) {
