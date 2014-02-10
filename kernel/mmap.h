@@ -5,7 +5,7 @@
 
 typedef struct mmap {
     int is_available;
-    int mem_size;
+    unsigned long mem_size;
 } mmap_t;
 
 mmap_t get_mmap(const multiboot_info_t* mb);
