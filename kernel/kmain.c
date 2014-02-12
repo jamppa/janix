@@ -31,35 +31,35 @@ static void init_kernel(const mmap_t* mmap){
 
 static void initialize_gdt() {
     init_gdt();
-    printk("- GDT loaded\n");
+    printk("-- GDT loaded\n");
 }
 
 static void initialize_paging() {
 	init_paging();
-	printk("- Paging enabled\n");
+	printk("-- Paging enabled\n");
 }
 
 static void initialize_screen(const mmap_t* mmap){
 	init_tty();
 	clear();
-	printk("Booting Janix 0.01\n******************\n");
+	printk("\tJanix version 0.01\n\n");
     print_mmap(mmap);
 }
 
 static void initialize_interrupts(){
 	init_intr();
     init_traps();
-	printk("- Interrupts initialized\n");
+	printk("-- Interrupts initialized\n");
 }
 
 static void initialize_clock(){
 	init_clock();
-	printk("- Clock enabled\n");
+	printk("-- Clock enabled\n");
 }
 
 static void print_mmap(const mmap_t* mmap) {
     if(mmap->is_available){
-        printk("\nAvailable physical RAM %d kb\n", mmap->mem_size);
+        printk("-- %d MB RAM available.\n", mmap->mem_size_mb);
     }    
 }
 
