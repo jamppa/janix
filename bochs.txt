@@ -1,7 +1,7 @@
 megs:            128
-display_library: x
-romimage:        file=/usr/local/share/bochs/BIOS-bochs-latest
-vgaromimage:     file=/usr/local/share/bochs/VGABIOS-lgpl-latest
+display_library: sdl
+romimage:        file=/usr/share/bochs/BIOS-bochs-latest
+vgaromimage:     file=/usr/share/bochs/VGABIOS-lgpl-latest
 ata0-master:     type=cdrom, path=janix.iso, status=inserted
 boot:            cdrom
 log:             bochslog.txt
